@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake
@@ -21,7 +21,7 @@ jobs:
       - name: Install Buildozer and Kivy
         run: pip install buildozer cython kivy
 
-      - name: Create Custom Buildozer Spec and Build
+      - name: Auto Generate Spec and Build APK
         run: |
           buildozer init
           sed -i 's/# requirements = kivy/requirements = python3,kivy/g' buildozer.spec
@@ -29,7 +29,7 @@ jobs:
           sed -i 's/title = My Application/title = THAMER TV/g' buildozer.spec
           yes | buildozer -v android debug
 
-      - name: Upload APK
+      - name: Upload Finished APK
         uses: actions/upload-artifact@v3
         with:
           name: ThamerTV-StandAlone-APK
